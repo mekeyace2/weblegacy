@@ -22,7 +22,4 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="mytld.mycompany.myapp" />
-	
-	
-	
 </beans:beans>
