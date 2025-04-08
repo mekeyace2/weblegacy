@@ -11,6 +11,10 @@
 	</appender>
 	
 	<!-- Application Loggers -->
+	<logger name="api"> <!-- api package 생성에 따른 log를 사용하기 위한 방식 -->
+		<level value="info" />
+	</logger>
+	
 	<logger name="mytld.mycompany.myapp">
 		<level value="info" />
 	</logger>	
