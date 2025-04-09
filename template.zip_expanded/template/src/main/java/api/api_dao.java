@@ -1,5 +1,6 @@
 package api;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -13,6 +14,12 @@ public class api_dao implements api_mapper {
 		
 		@Resource(name="sqltemp")
 		public SqlSessionTemplate ss;
+		
+		@Override
+		public List<api_dto> pdlist() {
+			List<api_dto> all = ss.selectList("pdlist");
+			return all;
+		}
 		
 		@Override
 		public int api_mapper(Map<String, String> data) {
