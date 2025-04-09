@@ -1,11 +1,12 @@
 package api;
-
+//CRUD
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,8 +26,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
+/*
+  jackson => ajax => JSON,   GSON 라이브러리
+  예) /api/data.do/{data}
+  @PutMapping 
+  @DeleteMapping	
+  @PatchMapping 
+  
+  @GetMapping, @PostMapping (HTML형식) => JSON 허락 예) /api/data.do
+ */
 @Controller
 public class api_controller {
 	
@@ -43,19 +53,32 @@ public class api_controller {
 	*/
 	PrintWriter pw = null;
 	
+	@Resource(name="api_dao")
+	api_dao dao;
+	
 	//@RequestBody String data : 정상적으로 값을 받아서 출력확인
 	@PutMapping("/ajax/ajax14/{key}")	//insert (DTO 기본)
 	public String ajax14(HttpServletResponse res,
 			@PathVariable(name = "key")String key,
-			//@ModelAttribute api_dto dto
 			@RequestBody String data
 			) {
 		try {
 			this.pw = res.getWriter();
 			if(key.equals("a123456")) {
-				this.logger.info(data);
-				//this.logger.info(dto.toString());
-				this.pw.write("ok");
+				Map<String,String> mp = new HashMap<String, String>();
+				JSONObject jo = new JSONObject(data);
+				Iterator<String> keys = jo.keys();
+				while(keys.hasNext()) {
+					String keynm = keys.next();	//키명
+					mp.put(keynm, jo.getString(keynm).toString());
+				}
+				int result = this.dao.api_mapper(mp);
+				if(result > 0) {
+					this.pw.write("ok");
+				}
+				else {
+					this.pw.write("no");	
+				}
 			}else {
 				this.pw.write("key error");
 			}
