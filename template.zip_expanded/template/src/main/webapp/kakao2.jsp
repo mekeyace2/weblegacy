@@ -28,7 +28,11 @@
 				 Kakao.API.request({	//사용자 가입정보를 요청
 					 url: '/v2/user/me', // 사용자 정보 가져오기
 					 success:function(response){	//API 서버에서 가입정보를 가져옴
-						 console.log(response);
+						 let id = response["id"];	//고유값
+						 //카카오에서 제공하는 별칭
+					 	 let nickname = response["kakao_account"]["profile"]["nickname"];
+					 	 console.log(id);
+					 	console.log(nickname);
 					 },
 					 fail:function(error){
 						 console.log("카카로 API 접속오류!!");		 
