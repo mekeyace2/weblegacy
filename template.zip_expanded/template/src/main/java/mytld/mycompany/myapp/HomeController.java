@@ -27,8 +27,8 @@ public class HomeController {
 	@Autowired
 	BasicDataSource dbinfo;
 	
-	@Resource(name="membershop_DAO")
-	membershop_DAO dao;
+	@Resource(name="membership_DAO")
+	membership_DAO dao;
 	
 	
 	//@Post => 일반로그인, Kakao api, @Get => Kakao Script 
