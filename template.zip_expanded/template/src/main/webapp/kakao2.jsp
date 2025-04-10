@@ -9,10 +9,14 @@
 <body>
 <form id="frm" method="post" action="./ajax/web_loginok.do">
 <input type="hidden" name="code" value="1">
+<input type="hidden" name="kakao_id" value="">
+<input type="hidden" name="kakao_nicknm" value="">
 아이디 : <input type="text" name="mid"><br>
 패스워드 : <input type="password" name="mpass"><br>
 <input type="submit" value="로그인">
-</form><br><br>
+</form>
+
+<br><br>
 <img src="./ajax/kakao_login.png" onclick="kakao_login()">
 <p id="token-result"></p>
 </body>
@@ -31,8 +35,10 @@
 						 let id = response["id"];	//고유값
 						 //카카오에서 제공하는 별칭
 					 	 let nickname = response["kakao_account"]["profile"]["nickname"];
-					 	 console.log(id);
-					 	console.log(nickname);
+						 frm.code.value = "2";
+						 frm.kakao_id.value = id;
+						 frm.kakao_nicknm.value = nickname;
+						 frm.submit();
 					 },
 					 fail:function(error){
 						 console.log("카카로 API 접속오류!!");		 

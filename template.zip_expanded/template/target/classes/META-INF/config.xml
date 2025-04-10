@@ -3,5 +3,6 @@
 <configuration>
 <typeAliases> <!-- DTO -->
 	<typeAlias alias="api_dto" type="api.api_dto"/>
+	<typeAlias alias="membership_DTO" type="mytld.mycompany.myapp.membership_DTO"/>
 </typeAliases>
 </configuration>
