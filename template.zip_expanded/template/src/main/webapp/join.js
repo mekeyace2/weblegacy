@@ -13,7 +13,15 @@ export class member_ck{
 			}).then(function(aa){
 				return aa.text();
 			}).then(function(bb){
-				console.log(bb);
+				//console.log(bb);
+				if(bb == "ok"){
+					alert("사용가능한 아이디 입니다.");
+					frm.MID.readOnly = true;
+					document.querySelector("#ck").value = "ok";
+				}else{
+					alert("이미 사용중인 아이디입니다.");
+					frm.MID.value = "";
+				}
 			}).catch(function(error){
 				console.log(error);	
 			});
@@ -24,7 +32,17 @@ export class member_ck{
 	
 	//회원가입 
 	join_okpage(){
-		
+		if(document.querySelector("#ck").value !="ok"){
+			alert("아이디입력 및 아이디 중복체크를 하여야 합니다");
+		}else if(frm.MPASS.value == ""){
+			alert("패스워드를 입력하세요");
+		}else if(frm.MEMAIL.value == ""){
+			alert("이메일을 입력하세요");
+		}
+		else{
+			frm.submit();	
+		}
+		 
 	}	
 	
 }
