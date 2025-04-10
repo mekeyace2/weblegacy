@@ -1,10 +1,12 @@
 package mytld.mycompany.myapp;
 
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletResponse;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.slf4j.Logger;
@@ -23,12 +25,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
+	PrintWriter pw = null;
 	
 	@Autowired
 	BasicDataSource dbinfo;
 	
 	@Resource(name="membership_DAO")
 	membership_DAO dao;
+	
+	@PostMapping("/login_idck.do")
+	public String login_idck(@RequestParam (name = "id")String id,
+			ServletResponse res){
+          
+         try {
+        	 //toUpperCase() : 소문자->대문자로 변경해준다.
+        	 //toLowerCase() : 대문자->소문자로 변경해준다.
+        	 this.pw= res.getWriter();
+        	 String a = id.toLowerCase();
+        	 this.logger.info(a);
+        	 String result = this.dao.id_row(id);
+        	 this.logger.info(result);
+		} catch (Exception e) {
+			this.logger.info(e.toString());
+	  }finally {
+		  this.pw.close();		  
+	  }
+		
+		this.logger.info(id);
+		return null;
+	}
 	
 	
 	//@Post => 일반로그인, Kakao api, @Get => Kakao Script 

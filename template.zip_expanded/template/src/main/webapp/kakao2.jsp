@@ -22,7 +22,7 @@
 </body>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.js"></script>
 <script>
-  Kakao.init('');	//키발급된 번호
+  Kakao.init('163d674e173bc945b54608eb03eb30fe');	//키발급된 번호
   function kakao_login(){
 	  //Kakao.Auth.login : 카카오 회원가입 및 로그인 페이지를 출력하는 함수
 	  Kakao.Auth.login({
