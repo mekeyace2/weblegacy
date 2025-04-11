@@ -38,7 +38,13 @@ document.querySelector("#modify_myinfo").addEventListener("click",function(){
 	}).then(function(result){
 			return result.text();
 	}).then(function(data){
-			console.log(data);			
+			if(data=="ok"){
+				alert("정상적으로 회원정보가 변경 되었습니다.");
+				location.reload();
+			}			
+			else{
+				alert("해당 정보가 올바르게 반영되지 않아 개인정보 수정이 되지 않습니다.");
+			}
 	}).catch(function(error){
 			console.log(error);
 	});

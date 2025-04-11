@@ -76,13 +76,19 @@ public class HomeController {
 					}
 				}
 				this.logger.info(userdata.toString());
-				
-				this.pw.write("ok");				
+				int result = this.dao.id_update(userdata);
+				if(result > 0) {				
+					this.pw.write("ok");
+				}
+				else {
+					this.pw.write("no");
+				}
 			}
 			else {
 				this.pw.write("key_error");	
 			}
 		}catch (Exception e) {
+			System.out.println(e);
 			this.pw.write("error");
 		}finally {
 			this.pw.close();

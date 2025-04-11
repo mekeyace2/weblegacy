@@ -19,6 +19,14 @@ public class membership_DAO implements membership_mapper {
 	
 	Map<String, String> mp = null;
 	private static final Logger logger = LoggerFactory.getLogger(membership_DAO.class);
+	
+	@Override
+	public int id_update(Map<String, String> map) {
+		int result = this.st.update("id_update",map); 
+		return result;
+	}
+	
+	
 	@Override
 	public List<membership_DTO> id_info(String mid, String mpass) {
 		//Map 생성하는 이유 : mapper.xml에서 choose을 사용하여 각 when(조건) 별로 query를 다르게 실행 시키기 위함
