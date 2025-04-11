@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mytld.mycompany.myapp.membership_mapper">
 
+<update id="id_update" parameterType="Map">
+update membership set 
+MHP= #{MHP},MEMAIL= #{MEMAIL},MPASS= #{MPASS}
+MHP= #{MHP},MEMAIL= #{MEMAIL} 
+where MID=#{MID} 
+</update>
+
 <!-- 
 map 이용하여 하나의 쿼리문으로 조건에 맞는 sql이 작동 되도록 설정
  -->

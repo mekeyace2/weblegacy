@@ -10,4 +10,5 @@ public interface membership_mapper {
 	public String id_row(String mid);
 	public int join_insert(membership_DTO dto);
 	public List<membership_DTO> id_info(String mid, String mpass);
+	
 }

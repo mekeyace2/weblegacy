@@ -4,7 +4,10 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletResponse;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +23,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +51,47 @@ public class HomeController {
 		
 	HttpSession session = null;
 	
+	
+	//API Patch로 개인정보 값 수정
+	@PatchMapping("/ajax/myinfo_modify.do/{key}")
+	public String myinfo_modify(ServletResponse res,
+			@PathVariable("key")String key,
+			@RequestBody String datainfo ) {
+		try {
+			this.pw = res.getWriter();
+			if(key.equals("mykey")) {
+				JSONObject jo = new JSONObject(datainfo); //=>Map
+				
+				Map<String, String> userdata = new HashMap<String, String>();
+				
+				//System.out.println(jo.keySet());
+				for(String k : jo.keySet()) {
+					if(!jo.get(k).equals("")) {
+						if(k.equals("MPASS")) {	//암호화
+							userdata.put(k, this.md5.md5_pass(jo.get(k).toString()));
+						}
+						else {
+							userdata.put(k, jo.get(k).toString());
+						}
+					}
+				}
+				this.logger.info(userdata.toString());
+				
+				this.pw.write("ok");				
+			}
+			else {
+				this.pw.write("key_error");	
+			}
+		}catch (Exception e) {
+			this.pw.write("error");
+		}finally {
+			this.pw.close();
+		}
+			
+		return null;
+	}
+	
+	
 	//로그아웃
 	@GetMapping("/ajax/logout.do")
 	public String logout(HttpServletRequest req, Model m) {
@@ -58,8 +106,11 @@ public class HomeController {
 	//로그인 사용자 정보 출력하는 페이지
 	@GetMapping("/ajax/myinfo.do")
 	public String myinfo(@SessionAttribute("MID")String MID,Model m) {
-		this.logger.info(MID);
+		
+		List<membership_DTO> mydata = this.dao.id_info(MID, "");
 		m.addAttribute("MID",MID);
+		m.addAttribute("mydata",mydata);
+		
 		return "/myinfo";
 	}
 	

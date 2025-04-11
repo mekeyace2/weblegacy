@@ -11,11 +11,15 @@
 <input type="hidden" name="code" value="1">
 <input type="hidden" name="kakao_id" value="">
 <input type="hidden" name="kakao_nicknm" value="">
-아이디 : <input type="text" name="mid"><br>
+아이디 : <input type="text" name="mid" autocomplete="off"><br>
 패스워드 : <input type="password" name="mpass"><br>
-<input type="submit" value="로그인">
+<input type="submit" value="로그인"><br>
+<input type="checkbox" id="save_id">아이디 저장
 </form>
-
+<!-- 자동로그인 기능을 활성화 할 경우, 실제로그인이 한번 되어야 활성이 된다.
+(백엔드에서 localstorage로 실행 되어 브라우저에 저장시킨다.)
+단순 아이디 저장시, 프론트엔드에서 처리 (localstorage에 저장시킨다.)
+ -->
 <br><br>
 <img src="./ajax/kakao_login.png" onclick="kakao_login()">
 <p id="token-result"></p>
@@ -53,12 +57,32 @@
 	  });
 }
 </script>
-<script>
 
-</script>
 
 
 <script>
+//해당 페이지로 접속시 작동되는 함수
+window.onload = function(){
+	let userid=localStorage.getItem("userid");
+	if(userid != null){//아이디 저장기능 활성화
+		frm.mid.value = userid;	
+		document.querySelector("#save_id").checked = true;
+	}
+};
+
+document.querySelector("#save_id").addEventListener("click",function(e){
+	if(frm.mid.value==""){		
+		alert('아이디를 입력하셔야만 해당 기능을 사용할 수 있습니다.');
+		this.checked=false;
+	}
+	else{
+		if(this.checked==true){
+		localStorage.setItem("userid",frm.mid.value);			
+		}else{
+		   localStorage.clear();	
+		}	
+	}
+});
 //ECMA => submit 사용시 return, return false가 없습니다.
 document.querySelector("#frm").addEventListener("submit",function(e){
 	e.preventDefault();	//강제정지
